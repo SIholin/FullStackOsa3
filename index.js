@@ -9,23 +9,10 @@ const Number = require('./models/number')
 app.use(express.static('build'))
 app.use(express.json())
 
-morgan.token('body', (req, res) => JSON.stringify(req.body))
+morgan.token('body', (req) => JSON.stringify(req.body))
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
 app.use(cors())
-
-let numbers = [
-    {
-        name: "Arto",
-        number: "040",
-        id: 1
-    },
-    {
-        name: "sanna",
-        number: "05",
-        id: 2
-    }
-]
 
 app.get('/', (req, res) => {
     res.send('<h1>moro</h1>')
@@ -51,7 +38,7 @@ app.get('/api/persons/:id', (req, res, next) => {
         if (n) {
             res.json(n)
         } else {
-           res.status(404).end()
+            res.status(404).end()
         }
     }).catch(error => next(error))
 })
@@ -65,7 +52,7 @@ app.delete('/api/persons/:id', (req, res, next) => {
 
 app.put('/api/persons/:id', (req, res, next) => {
     const body = req.body
-    
+  
     const number = {
         name: body.name,
         number: body.number
@@ -74,8 +61,8 @@ app.put('/api/persons/:id', (req, res, next) => {
     Number.findByIdAndUpdate(req.params.id, number, { new:true })
         .then(updatedNumber => {
             res.json(updatedNumber)
-    }).catch(error => next(error))
-}) 
+        }).catch(error => next(error))
+})
 
 app.post('/api/persons', (req, res, next) => {
     const body = req.body
