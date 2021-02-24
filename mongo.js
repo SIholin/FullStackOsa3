@@ -22,7 +22,7 @@ numberSchema.plugin(uniqueValidator)
 const Number = mongoose.model('Number', numberSchema)
 
 if(process.argv.length < 4) {
-    console.log("phonebook:")
+    console.log('phonebook:')
     Number.find({}).then(result => {
         result.forEach(n => {
             console.log(n.name, n.number)
